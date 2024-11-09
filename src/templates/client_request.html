@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang = "en" >
+
+<head>
+    <meta chartset = "UTF-8">
+    <title> Previous Requests </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .table-container {
+            max-width: 800px;
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="table-container">
+        <h1>Support Requests</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Subject</th>
+                    <th>Legal Request</th>
+                
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr>
+                    <td>{{ request['id'] }}</td>
+                    <td>{{ request['title'] }}</td>
+                    <td>{{ request['status'] }}</td>
+                    <td>{{ request['subject'] }}</td>
+                    <td>{{ request['case_type'] }}</td>
+                    <td>{{ request['case_type'] }}</td>
+                    <td>{{ request['date_posted'] }}</td>
+                    
+
+
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">No support requests found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

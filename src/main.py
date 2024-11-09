@@ -13,9 +13,9 @@ class LoginForm(FlaskForm):
 
 app = Flask(__name__)
 
-@app.route("/")
-def index():
-    return render_template('index.html', title='Home')
+# @app.route("/")
+# def index():
+#     return render_template('index.html', title='Home')
 
 @app.route("/login.html")
 def login():
@@ -33,10 +33,21 @@ def client():
 def lawyer():
     return render_template('lawyer.html')
 
-def main() -> str:
-    index()
-    login()
-    signup()
+@app.route("/")
+def clientrequest():
+    data = [{
+        'id': 0,
+         'title': "I want to sue McDonalds",
+         'status': 0,
+         'client_id' : 1,
+         'lawyer_id': 1,
+         'subject': "foo",
+         'case_type': 'CLOSED',
+         'date_posted' : '08/08/2003',
+    }]
+
+    return render_template('client_request.html', requests=data)
+
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
