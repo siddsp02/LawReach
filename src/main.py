@@ -1,6 +1,7 @@
 # !usr/bin/env python3
 
 from flask import Flask, render_template 
+from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 
@@ -29,7 +30,7 @@ def client():
     return render_template('client.html')
 
 @app.route("/laywer.html")
-def client():
+def lawyer():
     return render_template('lawyer.html')
 
 def main() -> str:
