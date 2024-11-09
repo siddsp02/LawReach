@@ -20,14 +20,14 @@ def index():
 
 
 @app.route("/login")
-def login():
+def log_in():
     form = LoginForm()
-    return render_template("login.html", form=form)
+    return render_template("log-in.html", form=form)
 
 
 @app.route("/sign-up")
-def signup():
-    return render_template("signup.html")
+def sign_up():
+    return render_template("sign-up.html")
 
 
 @app.route("/client")
