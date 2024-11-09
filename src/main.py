@@ -60,6 +60,16 @@ def client_sign_up():
 
 @app.route("/client-requests")
 def client_request():
+    header = [
+        "ID",
+        "Title",
+        "Status",
+        "Client",
+        "Lawyer",
+        "Subject",
+        "Case Type",
+        "Date Posted",
+    ]
     data = [
         {
             "id": 0,
@@ -93,7 +103,7 @@ def client_request():
         },
     ]
 
-    return render_template("client-request.html", requests=data)
+    return render_template("client-request.html", requests=data, header=header)
 
 
 @app.route("/client-create-case")
