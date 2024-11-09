@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template
 
-from forms import ClientSignUpForm, LawyerSignUpForm, LoginForm
+from forms import ClientSignUpForm, CreateCaseForm, LawyerSignUpForm, LoginForm
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "key"  # This will have to be replaced.
@@ -82,6 +82,12 @@ def client_request():
     ]
 
     return render_template("client-request.html", requests=data)
+
+
+@app.route("/client-create-case")
+def client_create_case():
+    form = CreateCaseForm()
+    return render_template("client-create-case.html", form=form)
 
 
 if __name__ == "__main__":

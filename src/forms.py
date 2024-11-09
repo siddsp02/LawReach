@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, PasswordField, StringField, SubmitField
+from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length
 
 
@@ -26,3 +26,9 @@ class ClientSignUpForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
     submit = SubmitField("Sign Up")
+
+
+class CreateCaseForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    subject = TextAreaField("About", validators=[DataRequired()])
+    submit = SubmitField("Create", validators=[DataRequired()])
