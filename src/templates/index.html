@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/indexPage.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/indexPage.css') }}">
 </head>
 
 <body>
@@ -12,10 +12,10 @@
     <!-- body goes here -->
     <div class="centered">
         <div class="loginButton">
-            <h1><a href="login.html">login</a></h1>
+            <h1><a href="{{ url_for('login') }}">login</a></h1>
         </div>
         <div class="signupButton">
-            <h1><a href="signup.html">signup</a></h1>
+            <h1><a href="{{ url_for('signup') }}">signup</a></h1>
         </div>
     </div>
 </body>
