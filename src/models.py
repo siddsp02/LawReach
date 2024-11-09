@@ -23,22 +23,13 @@ class CaseType(Enum):
     ACCIDENT = auto()
     CRIMINAL = auto()
 
+class UserType(Enum):
+    LAWYER = auto()
+    CLIENT = auto()
 
-class Client(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(20), unique=False, nullable=False)
-    last_name = db.Column(db.String(20), unique=False, nullable=False)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String())
-    password = db.Column(db.String(60), unique=True, nullable=False)
-    cases = db.relationship("Case", backref="author", lazy=True)
-
-    def __repr__(self):
-        return f"{type(self).__name__}('{self.first_name},{self.last_name},{self.username},{self.email}')"
-
-
-class Lawyer(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    user_type = db.Column(db.Enum(UserType))
     first_name = db.Column(db.String(20), unique=False, nullable=False)
     last_name = db.Column(db.String(20), unique=False, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
