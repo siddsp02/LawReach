@@ -2,7 +2,13 @@
 
 from flask import Flask, render_template
 
-from forms import ClientSignUpForm, CreateCaseForm, LawyerSignUpForm, LoginForm
+from forms import (
+    ClientSignUpForm,
+    CreateCaseForm,
+    LawyerApplicationForm,
+    LawyerSignUpForm,
+    LoginForm,
+)
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "key"  # This will have to be replaced.
@@ -39,8 +45,10 @@ def lawyer_sign_up():
     form = LawyerSignUpForm()
     return render_template("lawyer-sign-up.html", form=form)
 
+
 @app.route("/lawyer-application")
 def lawyer_application():
+    form = LawyerApplicationForm()
     return render_template("lawyer-application.html", form=form)
 
 

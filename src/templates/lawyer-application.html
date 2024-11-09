@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
             padding: 0;
             background-color: #f4f4f4;
         }
+
         .container {
             max-width: 600px;
             margin: 50px auto;
@@ -19,15 +21,18 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
         }
+
         h2 {
             text-align: center;
             color: #333;
         }
+
         label {
             display: block;
             margin: 10px 0 5px;
             color: #555;
         }
+
         .name-display {
             display: block;
             padding: 8px;
@@ -38,7 +43,10 @@
             font-size: 16px;
             color: #333;
         }
-        input, select, textarea {
+
+        input,
+        select,
+        textarea {
             width: 100%;
             padding: 8px;
             margin-bottom: 15px;
@@ -46,6 +54,7 @@
             border-radius: 4px;
             font-size: 16px;
         }
+
         button {
             display: block;
             width: 100%;
@@ -57,18 +66,20 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #45a049;
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Legal Aid Volunteer Information</h2>
-    <form>
-        <label for="lawyer-name">Name of Lawyer:</label>
-        <!--Name will be here-->
+    <div class="container">
+        <h2>Legal Aid Volunteer Information</h2>
+        <!-- <form> -->
+        <!-- <label for="lawyer-name">Name of Lawyer:</label>
+
         <span class="name-display" id="lawyer-name">First & Last Name</span> 
         
 
@@ -98,9 +109,22 @@
         <label for="reason">Reason for Volunteering:</label>
         <textarea id="reason" name="reason" rows="4" placeholder="Reason" required></textarea>
 
-        <button type="submit">Submit</button>
-    </form>
-</div>
+        <button type="submit">Submit</button> -->
+        <!-- </form> -->
+        {% set skip_fields = ["submit", "csrf_token"] %}
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <fieldset>
+                {% for field in form %}
+                {% if field.name not in skip_fields %}
+                {{ field.label() }} {{ field }}
+                {% endif %}
+                {% endfor %}
+            </fieldset>
+            {{ form.submit() }}
+        </form>
+    </div>
 
 </body>
+
 </html>

@@ -1,5 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
+from wtforms import (
+    BooleanField,
+    PasswordField,
+    SelectField,
+    StringField,
+    SubmitField,
+    TextAreaField,
+)
 from wtforms.validators import DataRequired, Email, Length
 
 
@@ -32,3 +39,34 @@ class CreateCaseForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
     subject = TextAreaField("About", validators=[DataRequired()])
     submit = SubmitField("Create", validators=[DataRequired()])
+
+
+class LawyerApplicationForm(FlaskForm):
+    name = StringField("Name of Lawyer: ", validators=[DataRequired()])
+    status = SelectField(
+        "Status",
+        validators=[DataRequired()],
+        choices=[
+            ("professional-lawyer", "Professional Lawyer"),
+            ("law-student", "Law Student"),
+            ("social-worker", "Social Worker"),
+            ("nonprofit-legal-advocate", "Nonprofit Legal Advocate"),
+            ("community-volunteer", "Community Volunteer"),
+            ("other", "Other"),
+        ],
+    )
+    specialty = SelectField(
+        "Specialty of Law",
+        validators=[DataRequired()],
+        choices=[
+            ("family-law", "Family Law"),
+            ("criminal-law", "Criminal Law"),
+            ("civil-rights", "Civil Rights"),
+            ("employment-law", "Employment Law"),
+            ("immigration-law", "Immigration Law"),
+            ("intellectual-property", "Intellectual Property"),
+            ("other", "Other"),
+        ],
+    )
+    reason = TextAreaField("Reason For Volunteering", default="Reason")
+    submit = SubmitField("Apply")
