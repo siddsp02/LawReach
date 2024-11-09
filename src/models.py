@@ -55,7 +55,7 @@ class Case(db.Model):
     status = db.Column(db.Enum(Status), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey("client.id"), nullable=False)
     lawyer_id = db.Column(db.Integer, db.ForeignKey("lawyer.id"), nullable=True)
-    case_type = db.Column(db.Enum(Status))
+    case_type = db.Column(db.Enum(CaseType))
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
     def __repr__(self) -> str:
