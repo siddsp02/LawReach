@@ -9,6 +9,11 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired, Email, Length
 
+try:
+    import src.models
+except ImportError:
+    from src import models
+
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
@@ -37,7 +42,12 @@ class ClientSignUpForm(FlaskForm):
 
 class CreateCaseForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
-    subject = TextAreaField("About", validators=[DataRequired()])
+    content = TextAreaField("Content", validators=[DataRequired()])
+    case_type = SelectField(
+        "Case Type",
+        validators=[DataRequired()],
+        choices=[(x._name_, x._name_) for x in models.CaseType],
+    )
     submit = SubmitField("Create", validators=[DataRequired()])
 
 

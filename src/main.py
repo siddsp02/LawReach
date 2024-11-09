@@ -1,6 +1,7 @@
 # !usr/bin/env python3
 
-from flask import Flask, render_template
+from flask import Flask, flash, redirect, render_template, url_for
+from flask_login import current_user
 
 from forms import (
     ClientSignUpForm,
@@ -10,8 +11,57 @@ from forms import (
     LoginForm,
 )
 
+try:
+    from src.models import Case, Status, db
+except ImportError:
+    from models import Case, Status, db
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "key"  # This will have to be replaced.
+
+
+header = [
+    "ID",
+    "Title",
+    "Status",
+    "Client",
+    "Lawyer",
+    "Subject",
+    "Case Type",
+    "Date Posted",
+]
+data = [
+    {
+        "id": 0,
+        "title": "I want to sue McDonalds",
+        "status": 0,
+        "client_id": 1,
+        "lawyer_id": 1,
+        "subject": "foo",
+        "case_type": "CLOSED",
+        "date_posted": "08/08/2003",
+    },
+    {
+        "id": 2,
+        "title": "I want to sue McDonalds",
+        "status": 0,
+        "client_id": 1,
+        "lawyer_id": 1,
+        "subject": "foo",
+        "case_type": "CLOSED",
+        "date_posted": "08/08/2003",
+    },
+    {
+        "id": 1,
+        "title": "I want to sue McDonalds",
+        "status": 0,
+        "client_id": 1,
+        "lawyer_id": 1,
+        "subject": "foo",
+        "case_type": "CLOSED",
+        "date_posted": "08/08/2003",
+    },
+]
 
 
 @app.route("/")
@@ -19,7 +69,7 @@ def index():
     return render_template("index.html", title="Home")
 
 
-@app.route("/login")
+@app.route("/log-in")
 def log_in():
     form = LoginForm()
     return render_template("log-in.html", form=form)
@@ -60,55 +110,24 @@ def client_sign_up():
 
 @app.route("/client-requests")
 def client_request():
-    header = [
-        "ID",
-        "Title",
-        "Status",
-        "Client",
-        "Lawyer",
-        "Subject",
-        "Case Type",
-        "Date Posted",
-    ]
-    data = [
-        {
-            "id": 0,
-            "title": "I want to sue McDonalds",
-            "status": 0,
-            "client_id": 1,
-            "lawyer_id": 1,
-            "subject": "foo",
-            "case_type": "CLOSED",
-            "date_posted": "08/08/2003",
-        },
-        {
-            "id": 2,
-            "title": "I want to sue McDonalds",
-            "status": 0,
-            "client_id": 1,
-            "lawyer_id": 1,
-            "subject": "foo",
-            "case_type": "CLOSED",
-            "date_posted": "08/08/2003",
-        },
-        {
-            "id": 1,
-            "title": "I want to sue McDonalds",
-            "status": 0,
-            "client_id": 1,
-            "lawyer_id": 1,
-            "subject": "foo",
-            "case_type": "CLOSED",
-            "date_posted": "08/08/2003",
-        },
-    ]
-
     return render_template("client-request.html", requests=data, header=header)
 
 
+# This needs more to be added.
 @app.route("/client-create-case")
 def client_create_case():
     form = CreateCaseForm()
+    if form.validate_on_submit():
+        case = Case(
+            title=form.title.data,  # type: ignore
+            content=form.content.data,  # type: ignore
+            status=Status.PENDING,  # type: ignore
+            author=current_user,  # type: ignore
+        )
+        db.session.add(case)
+        db.session.commit()
+        flash("Case created!")
+        return redirect(url_for("client_request"))
     return render_template("client-create-case.html", form=form)
 
 
