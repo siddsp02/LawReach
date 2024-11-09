@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
     <h1>Log In</h1>
-        <form action="/submit_support_form" method="post">
-            <!-- Title field -->
-            <label for="title">User </label>
-            <input type="text" id="title" name="title" placeholder="Enter the title of your issue" required>
-
-            <!-- Subject field -->
-            <label for="subject">Subject</label>
-            <textarea id="subject" name="subject" rows="5" placeholder="Describe your issue or question" required></textarea>
-
-            <!-- Submit button -->
-            <button type="submit">Submit</button>
+    {% set skip_fields = ["submit", "csrf_token"] %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            {% for field in form %}
+            {% if field.name not in skip_fields %}
+            {{ field.label() }} {{ field }}
+            {% endif %}
+            {% endfor %}
+        </fieldset>
+        {{ form.submit() }}
+    </form>
 </body>
+
 </html>
