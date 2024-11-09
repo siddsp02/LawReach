@@ -39,6 +39,10 @@ def lawyer_sign_up():
     form = LawyerSignUpForm()
     return render_template("lawyer-sign-up.html", form=form)
 
+@app.route("/lawyer-application")
+def lawyer_application():
+    return render_template("lawyer-application.html", form=form)
+
 
 @app.route("/client-sign-up")
 def client_sign_up():
