@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <h1>Create Case</h1>
+    {% set skip_fields = ["submit", "csrf_token"] %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            {% for field in form %}
+            {% if field.name not in skip_fields %}
+            {{ field.label() }} {{ field }}
+            {% endif %}
+            {% endfor %}
+        </fieldset>
+        {{ form.submit() }}
+    </form>
+</body>
+
+</html>
