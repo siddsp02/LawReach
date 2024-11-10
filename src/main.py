@@ -17,10 +17,11 @@ from forms import (
     LoginForm,
 )
 
+
 try:
-    from src.models import Case, Status, User, UserType, db
+    from src.models import Case, Status, User, UserType, db, CaseType
 except ImportError:
-    from models import Case, Status, User, UserType, db
+    from models import Case, Status, User, UserType, db, CaseType
 
 
 def create_app() -> Flask:
@@ -161,7 +162,6 @@ def client_sign_up():
         )
         db.session.add(user)
         db.session.commit()
-        print(User.query.all())
         flash("Account created! You can now log in!", "success")
         return redirect(url_for("index"))
     else:
@@ -176,12 +176,18 @@ def lawyer_application():
 
 
 @app.route("/client")
+@login_required
 def client():
-    return render_template("client.html", requests=data, header=header)
+    cases = Case.query.filter_by(client=current_user)
+    header = ["Title", "Status", "Created By", "Case Type", "Date Posted"]
+    cases_dct = [
+        {k: v for k, v in vars(case).items() if not k.startswith("_")} for case in cases
+    ]
+    return render_template("client.html", requests=data, cases=cases, header=header)
 
 
 # This needs more to be added.
-@app.route("/client-create-case")
+@app.route("/client-create-case", methods=["POST", "GET"])
 @login_required
 def client_create_case():
     form = CreateCaseForm()
@@ -190,12 +196,12 @@ def client_create_case():
             title=form.title.data,  # type: ignore
             content=form.content.data,  # type: ignore
             status=Status.PENDING,  # type: ignore
-            author=current_user,  # type: ignore
+            case_type=CaseType[form.case_type.data],  # type: ignore
+            client=current_user,  # type: ignore
         )
         db.session.add(case)
         db.session.commit()
-        flash("Case created!")
-        return redirect(url_for("client_request"))
+        return redirect(url_for("client"))
     return render_template("client-create-case.html", form=form)
 
 
