@@ -6,7 +6,7 @@
     <title> Previous Requests </title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/client-request.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/client.css') }}">
 </head>
 
 <body>
@@ -26,15 +26,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for request in requests %}
+                    {% for case in cases %}
                     <tr>
-                        {% for value in request.values() %}
-                        <td>{{ value }}</td>
-                        {% endfor %}
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="3">No support requests found.</td>
+                        <td>{{ case.title }}</td>
+                        <td>{{ case.status._name_ }}</td>
+                        <td>{{ case.client.username }}</td>
+                        <td>{{ case.case_type._name_ }}</td>
+                        <td>{{ case.date_posted }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
