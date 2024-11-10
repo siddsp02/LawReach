@@ -7,12 +7,36 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}"> -->
 </head>
 </head>
 
 <body>
-    <p>You are a lawyer!!!</p>
-    <a href="{{url_for('log_out')}}"> Logout </a>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    {% for column in header %}
+                    <th>{{ column }}</th>
+                    {% endfor %}
+                    <th>Apply</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for case in cases %}
+                <tr>
+                    <td>{{ case.title }}</td>
+                    <td>{{ case.status._name_ }}</td>
+                    <td>{{ case.client.username }}</td>
+                    <td>{{ case.case_type._name_ }}</td>
+                    <td>{{ case.date_posted.strftime("%Y-%m-%d %H:%M") }}</td>
+                    <td><a href="{{ url_for('apply_for_case', case_id=case.id)}}">Apply</a></td>
+                </tr>
+                {% endfor %}
+        </table>
+        <a href="{{url_for('log_out')}}"> Logout </a>
+    </div>
+
 </body>
 
 </html>
