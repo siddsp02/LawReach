@@ -11,14 +11,26 @@ from forms import (
     LoginForm,
 )
 
+
 try:
-    from src.models import Case, Status, db
+    from src.models import Case, Status, db, User, UserType
 except ImportError:
-    from models import Case, Status, db
+    from models import Case, Status, db, User, UserType
 
-app = Flask(__name__)
-app.config["SECRET_KEY"] = "key"  # This will have to be replaced.
 
+def create_app() -> Flask:
+    app = Flask(__name__)
+    app.config["SECRET_KEY"] = "key"  # This will have to be replaced.
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
+    db.init_app(app)
+
+    with app.app_context():
+        db.create_all()
+
+    return app
+
+
+app = create_app()
 
 header = [
     "ID",
@@ -132,4 +144,15 @@ def client_create_case():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app = create_app()
+    with app.app_context() as ctx:
+        db.create_all()
+        lawyer = User(
+            first_name="Joe",  # type: ignore
+            last_name="Mama",  # type: ignore
+            user_type=UserType.LAWYER,  # type: ignore
+            username="joemama",  # type: ignore
+            password="",  # type: ignore
+        )
+        db.session.add(lawyer)
+        print(User.query.all())
