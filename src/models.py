@@ -58,5 +58,12 @@ class Case(db.Model):
     case_type = db.Column(db.Enum(CaseType))
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
-    def __repr__(self) -> str:
-        return f"{type(self).__name__}('{self.status}', '{self.client_id}', '{self.case_type}', '{self.date_posted}')"
+    def __repr__(self):
+        return "{}({})".format(
+            type(self).__name__,
+            ", ".join(
+                f"{col}={val}"
+                for col, val in vars(self).items()
+                if not col.startswith("_")
+            ),
+        )
