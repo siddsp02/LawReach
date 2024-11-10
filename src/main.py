@@ -8,7 +8,6 @@ from flask_login import (
     login_user,
     logout_user,
 )
-import jinja2
 
 from forms import (
     ClientSignUpForm,
@@ -17,13 +16,13 @@ from forms import (
     LawyerSignUpForm,
     LoginForm,
 )
-from utils import time_diff
-
 
 try:
-    from src.models import Case, Status, User, UserType, db, CaseType
+    from src.models import Case, CaseType, Status, User, UserType, db
+    from src.utils import time_diff
 except ImportError:
-    from models import Case, Status, User, UserType, db, CaseType
+    from models import Case, CaseType, Status, User, UserType, db
+    from utils import time_diff
 
 
 def create_app() -> Flask:
@@ -168,13 +167,6 @@ def client_sign_up():
     else:
         flash("Something went wrong.", "error")
     return render_template("client-sign-up.html", form=form)
-
-
-# @app.route("/lawyer-application")
-# @login_required
-# def lawyer_application():
-#     form = LawyerApplicationForm()
-#     return render_template("lawyer-application.html", form=form)
 
 
 @app.route("/client", methods=["POST", "GET"])

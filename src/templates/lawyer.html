@@ -13,7 +13,14 @@
 
 <body>
     <div class="table-container">
-        <table>
+        <label for="caseFilter">Filter by Case Type: </label>
+        <select id="caseFilter" onchange="filterTable()">
+            <option value="">All</option>
+            <option value="MARRIAGE">MARRIAGE</option>
+            <option value="ACCIDENT">ACCIDENT</option>
+            <option value="CRIMINAL">CRIMINAL</option>
+        </select>
+        <table id="cases">
             <thead>
                 <tr>
                     {% for column in header %}
@@ -34,6 +41,26 @@
                 </tr>
                 {% endfor %}
         </table>
+        <script>
+            let filterTable = () => {
+                const caseTypeFilter = document.getElementById("caseFilter").value;
+                const table = document.getElementById("cases");
+                const rows = table.getElementsByTagName("tr");
+                if (caseTypeFilter)
+                    for (let i = 1; i < rows.length; ++i) {
+                        const caseCell = rows[i].getElementsByTagName("td")[3];
+                        let show = true;
+                        if (caseTypeFilter && caseCell.innerText !== caseTypeFilter)
+                            show = false;
+                        rows[i].style.display = show ? "" : "none";
+                    }
+                else {
+                    for (let i = 1; i < rows.length; ++i) {
+                        rows[i].style.display = "";
+                    }
+                }
+            }
+        </script>
         <a href="{{url_for('log_out')}}"> Logout </a>
     </div>
 
