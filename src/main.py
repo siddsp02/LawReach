@@ -2,11 +2,11 @@
 
 from flask import Flask, flash, redirect, render_template, url_for
 from flask_login import (
-    current_user,
     LoginManager,
+    current_user,
+    login_required,
     login_user,
     logout_user,
-    login_required,
 )
 
 from .forms import (
@@ -17,11 +17,10 @@ from .forms import (
     LoginForm,
 )
 
-
 try:
-    from src.models import Case, Status, db, User, UserType
+    from src.models import Case, Status, User, UserType, db
 except ImportError:
-    from models import Case, Status, db, User, UserType
+    from models import Case, Status, User, UserType, db
 
 
 def create_app() -> Flask:
@@ -139,8 +138,10 @@ def lawyer_sign_up():
         )
         db.session.add(user)
         db.session.commit()
-        flash("Account created! You can now log in!")
+        flash("Account created! You can now log in!", "success")
         return redirect(url_for("index"))
+    else:
+        flash("Something went wrong.", "error")
     return render_template("lawyer-sign-up.html", form=form)
 
 
@@ -161,9 +162,10 @@ def client_sign_up():
         db.session.add(user)
         db.session.commit()
         print(User.query.all())
-        flash("Account created! You can now log in!")
+        flash("Account created! You can now log in!", "success")
         return redirect(url_for("index"))
-
+    else:
+        flash("Something went wrong.", "error")
     return render_template("client-sign-up.html", form=form)
 
 
