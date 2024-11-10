@@ -8,17 +8,13 @@
 /* Background and Font */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f1f1f1;
+    /* Adding gradient background */
+    background: linear-gradient(to right, #695c4a, #c1b19d); /* Gradient from left to right */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
-
-fieldset {
-    border-width: 0;
-    padding: 0;
-    margin: 0;
+    color: #333;
 }
 
 /* Container Styling */
@@ -32,13 +28,12 @@ fieldset {
     width: 100%;
 }
 
-/* Title Styling - Applying Playfair Display font */
+/* Title Styling */
 .site-title {
-    font-family: serif; /* New font */
-    font-size: 40px;
-    font-weight: 700;
-    color: #444;
-    margin-bottom: 20px;
+    font-size: 36px;
+    font-weight: bold;
+    color: #695c4a;
+    margin-bottom: 30px;
 }
 
 /* Headline Styling */
