@@ -37,7 +37,16 @@ class ClientSignUpForm(FlaskForm):
 
 class CreateCaseForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
-    subject = TextAreaField("About", validators=[DataRequired()])
+    content = TextAreaField("Content", validators=[DataRequired()])
+    case_type = SelectField(
+        "Case Type",
+        validators=[DataRequired()],
+        choices=[
+            ("MARRIAGE", "MARRIAGE"),
+            ("ACCIDENT", "ACCIDENT"),
+            ("CRIMINAL", "CRIMINAL"),
+        ],
+    )
     submit = SubmitField("Create", validators=[DataRequired()])
 
 

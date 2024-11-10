@@ -1,20 +1,20 @@
-a{
+a {
     text-decoration: none;
     color: white;
 }
 
-body{
+body {
     background-color: lightgray;
 }
 
-.centered{
+.centered {
     position: absolute;
     top: 40%;
     left: 50%;
     transform: translate(-50%, -40%);
 }
 
-.loginButton{
+.loginButton {
     width: 300px;
     height: 100px;
     line-height: 100px;
@@ -24,7 +24,7 @@ body{
     border-radius: 8px;
 }
 
-.signupButton{
+.signupButton {
     width: 300px;
     height: 100px;
     line-height: 100px;
