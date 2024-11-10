@@ -103,13 +103,15 @@
                 padding: 10px;
             }
         }
+
+
     </style>
 </head>
 
 <body>
     <!-- Form Container -->
     <div class="form-container">
-        <h1>Create Case</h1>
+        <h1>Create Client Case</h1>
         {% set skip_fields = ["submit", "csrf_token"] %}
         <form method="POST">
             {{ form.hidden_tag() }}

@@ -4,27 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legal Aid Volunteer Form</title>
+    <title>Lawyer Volunteer Form</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* Basic Reset */
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            box-sizing: border-box;
         }
 
+        /* Background and Font */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
         .container {
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
             background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
             text-align: center;
             color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
 
         label {
@@ -37,38 +48,50 @@
             display: block;
             padding: 8px;
             margin-bottom: 15px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 16px;
             color: #333;
         }
 
+        /* Input Fields */
         input,
         select,
         textarea {
             width: 100%;
-            padding: 8px;
+            padding: 12px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
+            background-color: #fafafa;
         }
 
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #695c4a;
+            outline: none;
+        }
+
+        /* Button */
         button {
             display: block;
             width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
+            padding: 12px;
+            background-color: #695c4a;
             color: white;
             font-size: 16px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #574d3d;
+            transform: scale(1.02);
         }
     </style>
 </head>
@@ -77,47 +100,14 @@
 
     <div class="container">
         <h2>Legal Aid Volunteer Information</h2>
-        <!-- <form> -->
-        <!-- <label for="lawyer-name">Name of Lawyer:</label>
-
-        <span class="name-display" id="lawyer-name">First & Last Name</span> 
-        
-
-        <label for="status">Status:</label>
-        <select id="status" name="status" required>
-            <option value="">Select Status</option>
-            <option value="professional-lawyer">Professional Lawyer</option>
-            <option value="law-student">Law Student</option>
-            <option value="social-worker">Social Worker</option>
-            <option value="nonprofit-legal-advocate">Nonprofit Legal Advocate</option>
-            <option value="community-volunteer">Community Volunteer</option>
-            <option value="other">Other</option>
-        </select>
-
-        <label for="specialty">Specialty of Law:</label>
-        <select id="specialty" name="specialty" required>
-            <option value="">Select Specialty</option>
-            <option value="family-law">Family Law</option>
-            <option value="criminal-law">Criminal Law</option>
-            <option value="civil-rights">Civil Rights</option>
-            <option value="employment-law">Employment Law</option>
-            <option value="immigration-law">Immigration Law</option>
-            <option value="intellectual-property">Intellectual Property</option>
-            <option value="other">Other</option>
-        </select>
-
-        <label for="reason">Reason for Volunteering:</label>
-        <textarea id="reason" name="reason" rows="4" placeholder="Reason" required></textarea>
-
-        <button type="submit">Submit</button> -->
-        <!-- </form> -->
         {% set skip_fields = ["submit", "csrf_token"] %}
         <form method="POST">
             {{ form.hidden_tag() }}
             <fieldset>
                 {% for field in form %}
                 {% if field.name not in skip_fields %}
-                {{ field.label() }} {{ field }}
+                <label for="{{ field.id }}">{{ field.label }}</label>
+                {{ field }}
                 {% endif %}
                 {% endfor %}
             </fieldset>
