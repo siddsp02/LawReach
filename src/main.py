@@ -9,7 +9,7 @@ from flask_login import (
     logout_user,
 )
 
-from forms import (
+from .forms import (
     ClientSignUpForm,
     CreateCaseForm,
     LawyerApplicationForm,
