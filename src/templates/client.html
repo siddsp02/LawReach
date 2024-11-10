@@ -2,40 +2,48 @@
 <html lang="en">
 
 <head>
-    <meta chartset="UTF-8">
-    <title> Previous Requests </title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/client-request.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Requests</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/client.css') }}">
 </head>
 
 <body>
-    <a href="{{url_for('client_create_case')}}">New Case +</a>
-    <div class="table-container">
-        <!-- <h1>Support Requests</h1> -->
-        <table>
-            <thead>
-                <tr>
-                    {% for column in header %}
-                    <th> {{ column }} </th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
+
+    <div class="container">
+        <h1>Previous Requests</h1>
+        <a href="{{ url_for('client_create_case') }}">New Case +</a>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        {% for column in header %}
+                            <th>{{ column }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
                     {% for request in requests %}
-                    {% for value in request.values()%}
-                    <td>{{ value }}</td>
+                        <tr>
+                            {% for value in request.values() %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">No support requests found.</td>
+                        </tr>
                     {% endfor %}
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="3">No support requests found.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Logout Button -->
+        <a href="{{ url_for('log_out') }}">Logout</a>
     </div>
 
-    <a href="{{url_for('log_out')}}"> Logout </a>
 </body>
 
 </html>
