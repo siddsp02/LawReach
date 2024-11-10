@@ -1,8 +1,5 @@
 # !usr/bin/env python3
 
-from pprint import pprint
-import random
-import string
 from flask import Flask, flash, redirect, render_template, url_for
 from flask_login import (
     current_user,
@@ -12,7 +9,7 @@ from flask_login import (
     login_required,
 )
 
-from .forms import (
+from forms import (
     ClientSignUpForm,
     CreateCaseForm,
     LawyerApplicationForm,
@@ -95,14 +92,13 @@ def index():
     return render_template("index.html", title="Home")
 
 
-@app.route("/log-in")
+@app.route("/log-in", methods=["POST", "GET"])
 def log_in():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user and user.password.data == form.password.data:
+        if user and user.password == form.password.data:
             login_user(user)
-            flash("Logged in successfully!")
             return redirect(
                 url_for("lawyer" if user.user_type == UserType.LAWYER else "client")
             )
@@ -154,12 +150,6 @@ def lawyer_sign_up():
     return render_template("lawyer-sign-up.html", form=form)
 
 
-@app.route("/lawyer-application")
-def lawyer_application():
-    form = LawyerApplicationForm()
-    return render_template("lawyer-application.html", form=form)
-
-
 @app.route("/client-sign-up", methods=["POST", "GET"])
 def client_sign_up():
     if current_user.is_authenticated:
@@ -181,6 +171,12 @@ def client_sign_up():
         return redirect(url_for("index"))
 
     return render_template("client-sign-up.html", form=form)
+
+
+@app.route("/lawyer-application")
+def lawyer_application():
+    form = LawyerApplicationForm()
+    return render_template("lawyer-application.html", form=form)
 
 
 @app.route("/client-requests")

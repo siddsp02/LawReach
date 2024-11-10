@@ -24,7 +24,7 @@ class UserType(Enum):
     CLIENT = auto()
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     user_type = db.Column(db.Enum(UserType), nullable=False)
     first_name = db.Column(db.String(20), unique=False, nullable=False)
