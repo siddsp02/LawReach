@@ -117,12 +117,6 @@ def sign_up():
     return render_template("sign-up.html")
 
 
-@app.route("/client")
-@login_required
-def client():
-    return render_template("client.html")
-
-
 @app.route("/lawyer")
 @login_required
 def lawyer():
@@ -179,13 +173,14 @@ def lawyer_application():
     return render_template("lawyer-application.html", form=form)
 
 
-@app.route("/client-requests")
-def client_request():
-    return render_template("client-request.html", requests=data, header=header)
+@app.route("/client")
+def client():
+    return render_template("client.html", requests=data, header=header)
 
 
 # This needs more to be added.
 @app.route("/client-create-case")
+@login_required
 def client_create_case():
     form = CreateCaseForm()
     if form.validate_on_submit():

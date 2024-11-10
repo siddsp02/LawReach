@@ -30,14 +30,14 @@ class LawyerSignUpForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
     submit = SubmitField("Sign Up")
 
-    def validate_username(self, username) -> None:
+    def validate_username(self, username: StringField) -> None:
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValueError(
                 f"Username {username} already taken. Please choose another username."
             )
 
-    def validate_email(self, email) -> None:
+    def validate_email(self, email: StringField) -> None:
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValueError(
@@ -53,14 +53,14 @@ class ClientSignUpForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
     submit = SubmitField("Sign Up")
 
-    def validate_username(self, username) -> None:
+    def validate_username(self, username: StringField) -> None:
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValueError(
                 f"Username {username} already taken. Please choose another username."
             )
 
-    def validate_email(self, email) -> None:
+    def validate_email(self, email: StringField) -> None:
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValueError(

@@ -4,12 +4,13 @@
 <head>
     <meta chartset="UTF-8">
     <title> Previous Requests </title>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/client-request.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/client-request.css') }}">
 </head>
 
 <body>
+    <a href="{{url_for('client_create_case')}}">New Case +</a>
     <div class="table-container">
-        <h1>Support Requests</h1>
+        <!-- <h1>Support Requests</h1> -->
         <table>
             <thead>
                 <tr>
