@@ -4,7 +4,13 @@ from pprint import pprint
 import random
 import string
 from flask import Flask, flash, redirect, render_template, url_for
-from flask_login import current_user
+from flask_login import (
+    current_user,
+    LoginManager,
+    login_user,
+    logout_user,
+    login_required,
+)
 
 from forms import (
     ClientSignUpForm,
@@ -22,10 +28,15 @@ except ImportError:
 
 
 def create_app() -> Flask:
+    global login_manager  # Quick hack.
+
     app = Flask(__name__)
+    login_manager = LoginManager()
     app.config["SECRET_KEY"] = "key"  # This will have to be replaced.
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
     db.init_app(app)
+    login_manager.init_app(app)
+    login_manager.login_view = "log_in"  # type: ignore
 
     with app.app_context():
         db.create_all()
@@ -87,7 +98,22 @@ def index():
 @app.route("/log-in")
 def log_in():
     form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.password.data == form.password.data:
+            login_user(user)
+            flash("Logged in successfully!")
+            return redirect(
+                url_for("lawyer" if user.user_type == UserType.LAWYER else "client")
+            )
     return render_template("log-in.html", form=form)
+
+
+@app.route("/log-out")
+@login_required
+def log_out():
+    logout_user()
+    return redirect(url_for("index"))
 
 
 @app.route("/sign-up")
@@ -96,18 +122,35 @@ def sign_up():
 
 
 @app.route("/client")
+@login_required
 def client():
     return render_template("client.html")
 
 
 @app.route("/lawyer")
+@login_required
 def lawyer():
     return render_template("lawyer.html")
 
 
-@app.route("/lawyer-sign-up")
+@app.route("/lawyer-sign-up", methods=["POST", "GET"])
 def lawyer_sign_up():
+    if current_user.is_authenticated:
+        return redirect(url_for("lawyer"))
     form = LawyerSignUpForm()
+    if form.validate_on_submit():
+        user = User(
+            username=form.username.data,  # type: ignore
+            first_name=form.first_name.data,  # type: ignore
+            last_name=form.last_name.data,  # type: ignore
+            email=form.email.data,  # type: ignore
+            user_type=UserType.LAWYER,  # type: ignore
+            password=form.password.data,  # type: ignore
+        )
+        db.session.add(user)
+        db.session.commit()
+        flash("Account created! You can now log in!")
+        return redirect(url_for("index"))
     return render_template("lawyer-sign-up.html", form=form)
 
 
@@ -117,9 +160,26 @@ def lawyer_application():
     return render_template("lawyer-application.html", form=form)
 
 
-@app.route("/client-sign-up")
+@app.route("/client-sign-up", methods=["POST", "GET"])
 def client_sign_up():
+    if current_user.is_authenticated:
+        return redirect(url_for("client"))
     form = ClientSignUpForm()
+    if form.validate_on_submit():
+        user = User(
+            username=form.username.data,  # type: ignore
+            first_name=form.first_name.data,  # type: ignore
+            last_name=form.last_name.data,  # type: ignore
+            email=form.email.data,  # type: ignore
+            user_type=UserType.CLIENT,  # type: ignore
+            password=form.password.data,  # type: ignore
+        )
+        db.session.add(user)
+        db.session.commit()
+        print(User.query.all())
+        flash("Account created! You can now log in!")
+        return redirect(url_for("index"))
+
     return render_template("client-sign-up.html", form=form)
 
 
@@ -146,19 +206,10 @@ def client_create_case():
     return render_template("client-create-case.html", form=form)
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
 if __name__ == "__main__":
-    # app = create_app()
-    # with app.app_context() as ctx:
-    #     db.create_all()
-    #     for i in range(1):
-    #         user_example = User(
-    #             first_name="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
-    #             last_name="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
-    #             user_type=random.choice([UserType.LAWYER, UserType.CLIENT]),  # type: ignore
-    #             username="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
-    #             password="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
-    #         )
-    #         db.session.add(user_example)
-    #         pprint(user_example)
-    with app.app_context():
-        app.run(debug=True)
+    app.run(debug=True)

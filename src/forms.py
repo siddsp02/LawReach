@@ -9,6 +9,11 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired, Email, Length
 
+try:
+    from src.models import User, Case
+except ImportError:
+    from models import User, Case
+
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
@@ -25,6 +30,20 @@ class LawyerSignUpForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
     submit = SubmitField("Sign Up")
 
+    def validate_username(self, username) -> None:
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValueError(
+                f"Username {username} already taken. Please choose another username."
+            )
+
+    def validate_email(self, email) -> None:
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValueError(
+                f"Email {email} already in use. Please choose another email."
+            )
+
 
 class ClientSignUpForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
@@ -33,6 +52,20 @@ class ClientSignUpForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
     submit = SubmitField("Sign Up")
+
+    def validate_username(self, username) -> None:
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValueError(
+                f"Username {username} already taken. Please choose another username."
+            )
+
+    def validate_email(self, email) -> None:
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValueError(
+                f"Email {email} already in use. Please choose another email."
+            )
 
 
 class CreateCaseForm(FlaskForm):
