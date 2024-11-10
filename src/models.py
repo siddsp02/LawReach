@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum, auto
 
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
@@ -30,7 +30,7 @@ class User(db.Model):
     first_name = db.Column(db.String(20), unique=False, nullable=False)
     last_name = db.Column(db.String(20), unique=False, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String())
+    email = db.Column(db.String(), nullable=False)
     password = db.Column(db.String(60), nullable=False)
     client_cases = db.relationship(
         "Case", backref="client", lazy=True, foreign_keys="Case.client_id"
@@ -58,5 +58,12 @@ class Case(db.Model):
     case_type = db.Column(db.Enum(CaseType))
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
-    def __repr__(self) -> str:
-        return f"{type(self).__name__}('{self.status}', '{self.client_id}', '{self.case_type}', '{self.date_posted}')"
+    def __repr__(self):
+        return "{}({})".format(
+            type(self).__name__,
+            ", ".join(
+                f"{col}={val}"
+                for col, val in vars(self).items()
+                if not col.startswith("_")
+            ),
+        )
