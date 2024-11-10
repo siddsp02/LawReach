@@ -8,14 +8,16 @@ from flask_login import (
     login_user,
     logout_user,
 )
+import jinja2
 
-from .forms import (
+from forms import (
     ClientSignUpForm,
     CreateCaseForm,
     LawyerApplicationForm,
     LawyerSignUpForm,
     LoginForm,
 )
+from utils import time_diff
 
 
 try:
@@ -34,6 +36,8 @@ def create_app() -> Flask:
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "log_in"  # type: ignore
+
+    app.jinja_env.filters["time_diff"] = time_diff
 
     with app.app_context():
         db.create_all()
@@ -74,16 +78,24 @@ def sign_up():
     return render_template("sign-up.html")
 
 
-@app.route("/lawyer")
+@app.route("/lawyer", methods=["POST", "GET"])
 @login_required
 def lawyer():
-    return render_template("lawyer.html")
+    cases = Case.query.all()
+    header = ["Title", "Status", "Created By", "Case Type", "Date Posted"]
+    return render_template("lawyer.html", cases=cases, header=header)
+
+
+def redirect_current_user_to_home(user):
+    return redirect(
+        url_for("lawyer" if user.user_type == UserType.LAWYER else "client")
+    )
 
 
 @app.route("/lawyer-sign-up", methods=["POST", "GET"])
 def lawyer_sign_up():
     if current_user.is_authenticated:
-        return redirect(url_for("lawyer"))
+        return redirect_current_user_to_home(current_user)
     form = LawyerSignUpForm()
     if form.validate_on_submit():
         user = User(
@@ -103,44 +115,6 @@ def lawyer_sign_up():
     return render_template("lawyer-sign-up.html", form=form)
 
 
-@app.route("/client-sign-up", methods=["POST", "GET"])
-def client_sign_up():
-    if current_user.is_authenticated:
-        return redirect(url_for("client"))
-    form = ClientSignUpForm()
-    if form.validate_on_submit():
-        user = User(
-            username=form.username.data,  # type: ignore
-            first_name=form.first_name.data,  # type: ignore
-            last_name=form.last_name.data,  # type: ignore
-            email=form.email.data,  # type: ignore
-            user_type=UserType.CLIENT,  # type: ignore
-            password=form.password.data,  # type: ignore
-        )
-        db.session.add(user)
-        db.session.commit()
-        flash("Account created! You can now log in!", "success")
-        return redirect(url_for("index"))
-    else:
-        flash("Something went wrong.", "error")
-    return render_template("client-sign-up.html", form=form)
-
-
-@app.route("/lawyer-application")
-@login_required
-def lawyer_application():
-    form = LawyerApplicationForm()
-    return render_template("lawyer-application.html", form=form)
-
-
-@app.route("/client", methods=["POST", "GET"])
-@login_required
-def client():
-    cases = Case.query.filter_by(client=current_user)
-    header = ["Title", "Status", "Created By", "Case Type", "Date Posted"]
-    return render_template("client.html", cases=cases, header=header)
-
-
 # This needs more to be added.
 @app.route("/client-create-case", methods=["POST", "GET"])
 @login_required
@@ -158,6 +132,64 @@ def client_create_case():
         db.session.commit()
         return redirect(url_for("client"))
     return render_template("client-create-case.html", form=form)
+
+
+@app.route("/apply/<int:case_id>", methods=["POST", "GET"])
+@login_required
+def apply_for_case(case_id):
+    form = LawyerApplicationForm()
+    form.name.data = current_user.username
+    if form.validate_on_submit():
+        return redirect(url_for("lawyer"))
+    return render_template(
+        "lawyer-application.html",
+        form=form,
+        name=current_user.first_name + " " + current_user.last_name,
+    )
+
+
+@app.route("/client-sign-up", methods=["POST", "GET"])
+def client_sign_up():
+    if current_user.is_authenticated:
+        return redirect_current_user_to_home(current_user)
+    form = ClientSignUpForm()
+    if form.validate_on_submit():
+        user = User(
+            username=form.username.data,  # type: ignore
+            first_name=form.first_name.data,  # type: ignore
+            last_name=form.last_name.data,  # type: ignore
+            email=form.email.data,  # type: ignore
+            user_type=UserType.CLIENT,  # type: ignore
+            password=form.password.data,  # type: ignore
+        )
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for("index"))
+    else:
+        flash("Something went wrong.", "error")
+    return render_template("client-sign-up.html", form=form)
+
+
+# @app.route("/lawyer-application")
+# @login_required
+# def lawyer_application():
+#     form = LawyerApplicationForm()
+#     return render_template("lawyer-application.html", form=form)
+
+
+@app.route("/client", methods=["POST", "GET"])
+@login_required
+def client():
+    cases = Case.query.filter_by(client=current_user)
+    header = ["Title", "Status", "Created By", "Case Type", "Date Posted"]
+    return render_template("client.html", cases=cases, header=header)
+
+
+@app.route("/case/<int:case_id>")
+@login_required
+def view_case(case_id):
+    case = Case.query.get_or_404(case_id)
+    return render_template("case-view.html", case=case)
 
 
 @login_manager.user_loader

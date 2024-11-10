@@ -14,18 +14,19 @@
 
     <div class="container">
         <h2>Legal Aid Volunteer Information</h2>
-        {% set skip_fields = ["submit", "csrf_token"] %}
+        {% set skip_fields = ["submit", "name", "csrf_token"] %}
         <form method="POST">
             {{ form.hidden_tag() }}
             <fieldset>
+                <label>Name: </label> <span>{{ name }}</span>
                 {% for field in form %}
                 {% if field.name not in skip_fields %}
-                <label for="{{ field.id }}">{{ field.label }}</label>
+                <label>{{ field.label }}</label>
                 {{ field }}
                 {% endif %}
                 {% endfor %}
             </fieldset>
-            {{ form.submit() }}
+            {{ form.submit(class="btn") }}
         </form>
     </div>
 
