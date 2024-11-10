@@ -1,5 +1,8 @@
 # !usr/bin/env python3
 
+from pprint import pprint
+import random
+import string
 from flask import Flask, flash, redirect, render_template, url_for
 from flask_login import current_user
 
@@ -147,12 +150,13 @@ if __name__ == "__main__":
     app = create_app()
     with app.app_context() as ctx:
         db.create_all()
-        lawyer = User(
-            first_name="Joe",  # type: ignore
-            last_name="Mama",  # type: ignore
-            user_type=UserType.LAWYER,  # type: ignore
-            username="joemama",  # type: ignore
-            password="",  # type: ignore
-        )
-        db.session.add(lawyer)
-        print(User.query.all())
+        for i in range(1):
+            user_example = User(
+                first_name="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
+                last_name="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
+                user_type=random.choice([UserType.LAWYER, UserType.CLIENT]),  # type: ignore
+                username="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
+                password="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
+            )
+            db.session.add(user_example)
+            pprint(user_example)

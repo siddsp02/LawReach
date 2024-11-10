@@ -31,7 +31,7 @@ class User(db.Model):
     last_name = db.Column(db.String(20), unique=False, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String())
-    password = db.Column(db.String(60), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
     client_cases = db.relationship(
         "Case", backref="client", lazy=True, foreign_keys="Case.client_id"
     )
@@ -40,7 +40,14 @@ class User(db.Model):
     )
 
     def __repr__(self):
-        return f"{type(self).__name__}('{self.first_name}', '{self.last_name}', '{self.username}', '{self.email}')"
+        return "{}({})".format(
+            type(self).__name__,
+            ", ".join(
+                f"{col}={val}"
+                for col, val in vars(self).items()
+                if not col.startswith("_")
+            ),
+        )
 
 
 class Case(db.Model):
