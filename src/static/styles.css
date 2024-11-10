@@ -22,7 +22,7 @@ fieldset {
     margin: 0;
 }
 
-.indexBodx{
+.indexBody{
     font-family: Arial, sans-serif;
     /* Adding gradient background */
     background: linear-gradient(to right, #695c4a, #c1b19d); /* Gradient from left to right */
