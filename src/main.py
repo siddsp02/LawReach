@@ -41,49 +41,6 @@ def create_app() -> Flask:
     return app
 
 
-header = [
-    "ID",
-    "Title",
-    "Status",
-    "Client",
-    "Lawyer",
-    "Subject",
-    "Case Type",
-    "Date Posted",
-]
-data = [
-    {
-        "id": 0,
-        "title": "I want to sue McDonalds",
-        "status": 0,
-        "client_id": 1,
-        "lawyer_id": 1,
-        "subject": "foo",
-        "case_type": "CLOSED",
-        "date_posted": "08/08/2003",
-    },
-    {
-        "id": 2,
-        "title": "I want to sue McDonalds",
-        "status": 0,
-        "client_id": 1,
-        "lawyer_id": 1,
-        "subject": "foo",
-        "case_type": "CLOSED",
-        "date_posted": "08/08/2003",
-    },
-    {
-        "id": 1,
-        "title": "I want to sue McDonalds",
-        "status": 0,
-        "client_id": 1,
-        "lawyer_id": 1,
-        "subject": "foo",
-        "case_type": "CLOSED",
-        "date_posted": "08/08/2003",
-    },
-]
-
 app = create_app()
 
 
@@ -170,20 +127,18 @@ def client_sign_up():
 
 
 @app.route("/lawyer-application")
+@login_required
 def lawyer_application():
     form = LawyerApplicationForm()
     return render_template("lawyer-application.html", form=form)
 
 
-@app.route("/client")
+@app.route("/client", methods=["POST", "GET"])
 @login_required
 def client():
     cases = Case.query.filter_by(client=current_user)
     header = ["Title", "Status", "Created By", "Case Type", "Date Posted"]
-    cases_dct = [
-        {k: v for k, v in vars(case).items() if not k.startswith("_")} for case in cases
-    ]
-    return render_template("client.html", requests=data, cases=cases, header=header)
+    return render_template("client.html", cases=cases, header=header)
 
 
 # This needs more to be added.
