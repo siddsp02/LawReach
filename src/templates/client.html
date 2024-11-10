@@ -2,17 +2,39 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/client.css') }}">
-    <title>Previous Requests</title>
+    <meta chartset="UTF-8">
+    <title> Previous Requests </title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/client-request.css') }}">
 </head>
 
-
-
 <body>
-    <p>You are a client!!!</p>
+    <div class="table-container">
+        <h1>Support Requests</h1>
+        <table>
+            <thead>
+                <tr>
+                    {% for column in header %}
+                    <th> {{ column }} </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for request in requests %}
+                    {% for value in request.values()%}
+                    <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">No support requests found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
     <a href="{{url_for('log_out')}}"> Logout </a>
 </body>
-
 
 </html>

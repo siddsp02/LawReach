@@ -1,11 +1,3 @@
-/* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Background and Font */
 body {
     font-family: Arial, sans-serif;
     background-color: #f1f1f1;
@@ -24,8 +16,8 @@ fieldset {
     margin: auto;
     background-color: white;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
@@ -52,14 +44,9 @@ td {
 }
 
 th {
-    background-color: #695c4a;
-    color: white;
+    background-color: #f4f4f4;
 }
 
 tr:nth-child(even) {
-    background-color: #f4f4f9;
-}
-
-tr:hover {
     background-color: #fafafa;
 }
