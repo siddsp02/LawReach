@@ -1,6 +1,5 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from enum import Enum, auto
-from functools import partial
 
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
