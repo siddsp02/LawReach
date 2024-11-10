@@ -3,68 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/client.css') }}">
     <title>Previous Requests</title>
-    <style>
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Background and Font */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f1f1f1;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .table-container {
-            max-width: 800px;
-            margin: auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table,
-        th,
-        td {
-            border: 1px solid #ddd;
-        }
-
-        th,
-        td {
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #695c4a;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f4f4f9;
-        }
-
-        tr:hover {
-            background-color: #fafafa;
-        }
-    </style>
 </head>
 
 <body>

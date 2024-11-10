@@ -12,7 +12,7 @@ from flask_login import (
     login_required,
 )
 
-from forms import (
+from .forms import (
     ClientSignUpForm,
     CreateCaseForm,
     LawyerApplicationForm,

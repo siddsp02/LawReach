@@ -1,0 +1,97 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Background and Font */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+/* Form Container Styling */
+.form-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px;
+    background-color: #fff;
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Headline Styling */
+.form-container h1 {
+    text-align: center;
+    color: #444;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Label Styling */
+label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+    color: #555;
+}
+
+/* Input and Textarea Styling */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Button Styling */
+input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #695c4a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #574d3d;
+    transform: scale(1.02);
+}
+
+/* Accessibility & Mobile Adjustments */
+@media (max-width: 600px) {
+    .form-container {
+        padding: 20px 15px;
+        width: 90%;
+    }
+
+    .form-container h1 {
+        font-size: 20px;
+    }
+
+    label {
+        font-size: 15px;
+    }
+
+    input[type="submit"] {
+        font-size: 15px;
+        padding: 10px;
+    }
+}

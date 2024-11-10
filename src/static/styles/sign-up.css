@@ -1,0 +1,72 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Background and Font */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+/* Container Styling */
+.sign-up-container {
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 300px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Headline Styling */
+.sign-up-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+/* Button Styling */
+.sign-up-container a {
+    display: block;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    background-color: #695c4a;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 15px;
+}
+
+.sign-up-container a:hover {
+    background-color: #574d3d;
+    transform: scale(1.02);
+}
+
+/* Accessibility & Mobile Adjustments */
+@media (max-width: 600px) {
+    .sign-up-container {
+        padding: 20px 15px;
+        width: 90%;
+    }
+
+    .sign-up-container h1 {
+        font-size: 20px;
+    }
+
+    .sign-up-container a {
+        font-size: 15px;
+        padding: 12px;
+    }
+}
