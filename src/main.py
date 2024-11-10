@@ -33,8 +33,6 @@ def create_app() -> Flask:
     return app
 
 
-app = create_app()
-
 header = [
     "ID",
     "Title",
@@ -77,6 +75,8 @@ data = [
         "date_posted": "08/08/2003",
     },
 ]
+
+app = create_app()
 
 
 @app.route("/")
@@ -147,16 +147,18 @@ def client_create_case():
 
 
 if __name__ == "__main__":
-    app = create_app()
-    with app.app_context() as ctx:
-        db.create_all()
-        for i in range(1):
-            user_example = User(
-                first_name="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
-                last_name="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
-                user_type=random.choice([UserType.LAWYER, UserType.CLIENT]),  # type: ignore
-                username="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
-                password="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
-            )
-            db.session.add(user_example)
-            pprint(user_example)
+    # app = create_app()
+    # with app.app_context() as ctx:
+    #     db.create_all()
+    #     for i in range(1):
+    #         user_example = User(
+    #             first_name="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
+    #             last_name="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
+    #             user_type=random.choice([UserType.LAWYER, UserType.CLIENT]),  # type: ignore
+    #             username="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
+    #             password="".join(random.sample(string.ascii_letters, k=10)),  # type: ignore
+    #         )
+    #         db.session.add(user_example)
+    #         pprint(user_example)
+    with app.app_context():
+        app.run(debug=True)
