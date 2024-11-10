@@ -12,7 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f1f1f1;
+    /* background-color: #f1f1f1; */
     color: #333;
 }
 
@@ -20,17 +20,6 @@ fieldset {
     border-width: 0;
     padding: 0;
     margin: 0;
-}
-
-.indexBodx{
-    font-family: Arial, sans-serif;
-    /* Adding gradient background */
-    background: linear-gradient(to right, #695c4a, #c1b19d); /* Gradient from left to right */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #333;
 }
 
 /* Button Styling */
@@ -83,59 +72,15 @@ a:hover {
     transform: scale(1.05);
 }
 
-/* Header */
-h1 {
-    text-align: center;
-    font-size: 28px;
-    color: #444;
-    margin-bottom: 20px;
-}
-
-/* Table Styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-th {
-    background-color: #695c4a;
-    color: white;
-}
-
-tr:nth-child(even) {
-    background-color: #fafafa;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"],
-textarea,
-select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-h2 {
-    text-align: center;
+.indexBody{
+    font-family: Arial, sans-serif;
+    /* Adding gradient background */
+    background: linear-gradient(to right, #695c4a, #c1b19d); /* Gradient from left to right */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus input:focus {
-    border-color: #695c4a;
-    outline: none;
 }
 
 /* Container Styling */
